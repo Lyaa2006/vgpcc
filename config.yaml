@@ -1,0 +1,44 @@
+# 全局配置：记录模型、数据集及摘要缓存的位置
+# 请保持此文件位于项目根目录，供后续脚本统一读取
+
+models:
+  # qwen3-8B 模型目录（末尾保留斜杠或不保留均可）
+  qwen3_8b: "/home/u20240075/gbs/models/Qwen3-8B"
+  # online verifier 基座模型（小模型）
+  verifier_base: "/home/u20240075/gbs/models/Qwen3-0.6B"
+  # 可选：verifier 微调输出目录（若存在优先使用）
+  verifier_finetuned: "/home/u20240075/gbs/models/Qwen3-0.6B-verifier-ft"
+
+datasets:
+  # lamp-3 原始数据集目录
+  lamp3: "/home/u20240075/lyaa/vgpcc/data/lamp-3"
+
+summaries:
+  # lamp3 的聚合/摘要缓存文件
+  lamp3_summary_cache: "/home/u20240075/lyaa/vgpcc/data/summary_cache.json"
+  # 是否用模型细化 summary 成标准 memory index
+  refine_with_llm: true
+  # 细化后的输出缓存
+  refined_cache_path: "/home/u20240075/lyaa/vgpcc/data/summary_cache_vgpcc.json"
+  # 若已有 refined_cache_path 是否强制重建
+  force_refine: false
+
+pipeline:
+  load_model: true
+  use_llm_compressor: true
+  max_memory_entries: 10
+
+# 压缩上下文 token 预算（用于 BaseCompressor）
+  token_budget: 256
+  # verifier feedback -> compression optimization
+  feedback_enabled: true
+  feedback_increase_factor: 1.5
+  feedback_max_budget: 512
+  feedback_min_sufficiency_score: 0.6
+  feedback_min_predicted_utility_loss: 0.2
+
+training:
+  min_sufficiency_score: 0.5
+  min_utility_loss: 0.1
+  max_utility_loss_for_sufficient: 0.6
+  min_utility_loss_for_insufficient: 0.15

@@ -1,0 +1,4 @@
+pydantic
+pyyaml
+transformers
+torch

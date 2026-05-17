@@ -1,0 +1,5 @@
+# Ignore data, logs, and cache directories
+data/
+logs/
+cache/
+__pycache__/
